@@ -71,9 +71,24 @@ status/                STATE: PROGRESS.md, ISSUES.md, reports/phase-N.md
 - Schema and contract changes need an ADR first.
 - Every bug found goes into `status/ISSUES.md`.
 - Ideas for later go in with `/edit add a dark-mode toggle`. Nothing is built until you say `/edit run`, which turns them into new phases for you to approve.
+- If the project has a UI, setup asks which component library and design helpers you want (see below). The default is the lightest option.
 - *Review each phase* mode stops after every phase. *Run all phases* mode keeps going and stops only on a blocker.
 
 **Requirements:** Claude Code, plus Git Bash on Windows (Claude Code already needs it, and the hooks run through it).
+
+## Design options
+
+Setup offers these when the project has a UI. It recommends one component library for your stack and only the frontend-design skill as a helper. Every MCP server costs tokens in every session, so pick one only when it clearly pays off.
+
+**Component libraries:** shadcn/ui (React/Next), shadcn-vue or Nuxt UI (Vue), shadcn-svelte (Svelte), React Native Reusables + NativeWind (React Native), MUI (Material look, dashboards), or plain Tailwind / Pico CSS (server-rendered HTML).
+
+| Helper | What it gives | Cost |
+|---|---|---|
+| frontend-design skill (Anthropic) | A deliberate visual direction, type and palette, so the UI doesn't look generic | ~40 tokens per session |
+| shadcn MCP | Browse and add components from shadcn-style registries by chat | tokens every session |
+| Magic UI MCP | 150+ animated components for landing pages | tokens every session |
+| Figma MCP | Builds to match your Figma designs | tokens every session, Figma login |
+| 21st MCP | Search and generate community React components | tokens every session, paid after 5 requests |
 
 ## Releasing (maintainers)
 

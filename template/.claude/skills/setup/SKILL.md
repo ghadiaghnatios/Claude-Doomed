@@ -13,7 +13,8 @@ this file in `templates/`. Rules while it runs:
   more. Stop only on a failure, and report the exact error.
 - Write nothing outside this folder. Never touch `~/.claude/`.
 - Add no MCP servers, plugins or skills unless the user opted in during the
-  interview. Add no dependency beyond what the stack's official generator installs.
+  interview. Add no dependency beyond what the stack's official generator
+  installs, plus the component library chosen in the interview.
 - **Never edit the managed files.** The updater overwrites them:
   `.claude/skills/setup/**`, `.claude/skills/close-phase/**`, `.claude/skills/edit/**`,
   `.claude/agents/reviewer.md`, `.claude/hooks/guard-secrets.sh`,
@@ -91,6 +92,11 @@ don't add an "Other" option yourself.
 4. What's the core flow?
 5. What's out of scope for v1? (multiSelect: offer likely cuts)
 6. Stack: language/framework, front end or none, database or none.
+6b. **Design**, only if there's a UI. Two questions, from the catalog below:
+   - Component library (single choice): the fitting one for the stack.
+   - Design helpers (multiSelect): up to 4 that fit, the frontend-design
+     skill first as recommended. Name any others from the catalog in the
+     question text so the user can type one under Other.
 7. Is there a runnable service? (decides whether "app boots" is part of the gate)
 8. Autonomy: **Review each phase** (recommended: stop after every phase) or
    **Run all phases** (keep going, and stop only on a blocker, a failing gate
@@ -99,6 +105,30 @@ don't add an "Other" option yourself.
    every session) or **Yes** (worth it for fast-moving frameworks; a free API
    key from context7.com/dashboard raises the rate limits).
 10. Project name: offer 2-3 names, the folder name first.
+
+### Design catalog
+
+Every helper here is extra context, so the default is the frontend-design
+skill only. MCP servers cost tokens every session (their tool list loads
+every time), so recommend one only when it clearly pays off.
+
+Component libraries (the source goes in the repo or `package.json`):
+| Stack | Recommend | Alternatives |
+|---|---|---|
+| React / Next.js | **shadcn/ui**: components are copied into the repo as code Claude can edit, built on Tailwind + Radix | MUI (complete Material look, good for admin/dashboards) · plain Tailwind |
+| Vue / Nuxt | **shadcn-vue** | Nuxt UI · plain Tailwind |
+| Svelte | **shadcn-svelte** | plain Tailwind |
+| React Native / Expo | **React Native Reusables** (shadcn for native) + NativeWind | Tamagui |
+| Server-rendered HTML | **plain Tailwind** or Pico CSS | none |
+
+Design helpers:
+| Helper | What it gives | Cost | Install |
+|---|---|---|---|
+| **frontend-design skill** (Anthropic) | Picks a deliberate visual direction, typography and palette before coding; avoids generic AI-looking UI | ~40 tokens per session; the body loads only for UI work | skill files, see step 6 |
+| shadcn MCP | Browse, search and add components from shadcn and any shadcn-style registry by chat | tokens every session. Claude can already run `npx shadcn@latest add`, so only worth it with several registries | `.mcp.json` |
+| Magic UI MCP | 150+ animated React + Tailwind components (marquees, text effects, backgrounds) for landing pages | tokens every session | `.mcp.json` |
+| Figma MCP | Reads your Figma frames, variables and components and builds to match | tokens every session; needs a Figma login | `.mcp.json` |
+| 21st MCP | Search 10,000+ community React components and generate new ones | tokens every session; API key, 5 free requests then paid | follow 21st.dev/mcp |
 
 If AskUserQuestion isn't available, ask the same questions in plain text,
 still one per message: numbered options, the recommended one first, and a
@@ -116,6 +146,7 @@ Users:     <...>          Stores: <...>
 Stack:     <...>
 Gate:      <lint> · <types> · <test> [· <run>]
 Autonomy:  <...>          Context7: <yes/no>
+Design:    <component library> · <helpers, or none>
 Not in v1: <...>
 Phases:    1. <walking skeleton>  2. <...>  ...
 ```
@@ -135,6 +166,9 @@ test (for example, "the package imports") so that the test runner and the
 type checker have something to run. A gate that fails on an empty scaffold
 teaches everyone to ignore it. Several deployables go in
 `app/<name>/`, shared code in `app/packages/<name>/`.
+
+A component library was chosen: set it up with its official CLI (for example
+`npx shadcn@latest init`), with no components beyond what init adds.
 
 ## 4. Write the documents
 
@@ -200,6 +234,21 @@ Merge into the existing file, and never drop entries from `deny`.
   for the value), then restart Claude and approve the server. Add one line
   to `CLAUDE.md`: check Context7 before writing against an unfamiliar
   library API.
+- frontend-design skill opted in: download `SKILL.md` and `LICENSE.txt` from
+  `https://raw.githubusercontent.com/anthropics/skills/main/skills/frontend-design/`
+  into `.claude/skills/frontend-design/`. Read it before saving, and stop if it
+  isn't a plain design-guidance skill.
+- Design MCP servers opted in: merge each into `.mcp.json` under `mcpServers`:
+  shadcn `{"command":"npx","args":["shadcn@latest","mcp"]}`, Magic UI
+  `{"command":"npx","args":["-y","@magicuidesign/mcp@latest"]}`, Figma
+  `{"type":"http","url":"https://mcp.figma.com/mcp"}`. For 21st, point the
+  user to 21st.dev/mcp and have them set the key in their own shell. Then
+  tell the user to restart Claude and approve the servers (Figma asks them
+  to log in).
+- There's a UI: write `.claude/rules/ui.md` scoped to the UI files: use the
+  chosen library's components before writing custom ones, add them with its
+  CLI, keep colors, spacing and fonts as shared tokens (theme or CSS
+  variables) instead of one-off values, and check keyboard access and contrast.
 
 ## 7. Verify
 

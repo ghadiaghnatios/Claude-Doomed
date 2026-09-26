@@ -41,6 +41,11 @@ Anything not listed under v1 scope is out of scope.
 | Database | | |
 | Runs via | | |
 
+## Design
+
+<Only if there's a UI. Component library, design helpers, and the visual
+direction in one or two lines (mood, palette, type). Delete otherwise.>
+
 ## Data model sketch
 
 <The 3-6 nouns it stores and how they relate. A real schema needs an ADR.>
