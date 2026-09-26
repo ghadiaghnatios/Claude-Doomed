@@ -18,7 +18,7 @@ irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/main/install.
 curl -fsSL https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/main/install.sh | sh
 ```
 
-Then, on any OS, run `claude` and say **setup yourself**. It asks one round of questions (what you're building, the stack, how much autonomy to give it, whether to add Context7), then builds everything below and stops once so you can review the plan. Say **continue** to start phase 1. Existing files are never overwritten.
+Then, on any OS, run `claude` and say **setup yourself**. It asks its questions one at a time (what you're building, the stack, how much autonomy to give it, whether to add Context7), then builds everything below and stops once so you can review the plan. Say **continue** to start phase 1. Existing files are never overwritten.
 
 During setup, Claude Code asks you to approve a few writes to `.claude/` (settings and rules). That's a built-in safety check and can't be skipped, so approve them.
 

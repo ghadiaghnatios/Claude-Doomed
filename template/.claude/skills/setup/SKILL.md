@@ -8,7 +8,7 @@ description: Set up or reconfigure this workspace for Claude (interview, plan, f
 This turns the folder into a configured workspace. Templates live next to
 this file in `templates/`. Rules while it runs:
 
-- Ask everything you need in **one** round, then run to the end without
+- Interview first, **one question at a time**, then run to the end without
   asking more. Stop only on a failure, and report the exact error.
 - Write nothing outside this folder. Never touch `~/.claude/`.
 - Add no MCP servers, plugins or skills unless the user opted in during the
@@ -61,27 +61,36 @@ sections of `CLAUDE.md`. Never rewrite `docs/` or `status/`. Then jump to step 6
   the README.
 - **Empty folder:** everything goes in `app/`.
 
-## 2. Interview (one round)
+## 2. Interview (one question at a time)
 
-If the user hasn't already described the project, ask in plain text: what
-it is, who uses it, what it stores, the core flow, and what's out of scope for v1.
+Ask each question on its own and wait for the answer before asking the next.
+Never list several questions in one message, and never put more than one
+question in an AskUserQuestion call. Use earlier answers to shape later
+questions and the recommended option. Skip any question already answered or
+inferable.
 
-Then ask one AskUserQuestion call for the choices. Offer a recommended
-option first, based on the description:
-- Stack: language/framework, front end or none, database or none.
-- Is there a runnable service? (decides whether "app boots" is part of the gate)
-- Autonomy: **Review each phase** (recommended: stop after every phase) or
-  **Run all phases** (keep going, and stop only on a blocker, a failing gate
-  you can't fix, an ADR that needs approval, or the end).
-- Context7 library docs (MCP)? **No** (recommended, it costs ~1-4k tokens
-  every session) or **Yes** (worth it for fast-moving frameworks; a free API
-  key from context7.com/dashboard raises the rate limits).
-- Project name. Skip if it's obvious from the description or the folder name.
+Description, in plain text, one message each:
+1. What is it?
+2. Who uses it?
+3. What does it store?
+4. What's the core flow?
+5. What's out of scope for v1?
 
-Don't ask anything you can infer. Write down what you inferred instead. If
-AskUserQuestion isn't available (non-interactive run), or the user already
-answered in their message, use those answers or the recommended defaults,
-and list your assumptions under Open questions in `docs/plan.md`.
+Then the choices, one AskUserQuestion call each, recommended option first:
+6. Stack: language/framework, front end or none, database or none.
+7. Is there a runnable service? (decides whether "app boots" is part of the gate)
+8. Autonomy: **Review each phase** (recommended: stop after every phase) or
+   **Run all phases** (keep going, and stop only on a blocker, a failing gate
+   you can't fix, an ADR that needs approval, or the end).
+9. Context7 library docs (MCP)? **No** (recommended, it costs ~1-4k tokens
+   every session) or **Yes** (worth it for fast-moving frameworks; a free API
+   key from context7.com/dashboard raises the rate limits).
+10. Project name. Skip if it's obvious from the description or the folder name.
+
+Write down what you inferred instead of asking. If AskUserQuestion isn't
+available (non-interactive run), or the user already answered in their
+message, use those answers or the recommended defaults, and list your
+assumptions under Open questions in `docs/plan.md`.
 
 ## 3. Scaffold `app/`
 
