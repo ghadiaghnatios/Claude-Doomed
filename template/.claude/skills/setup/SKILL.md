@@ -65,18 +65,24 @@ sections of `CLAUDE.md`. Never rewrite `docs/` or `status/`. Then jump to step 6
 
 Ask each question on its own and wait for the answer before asking the next.
 Never list several questions in one message, and never put more than one
-question in an AskUserQuestion call. Use earlier answers to shape later
-questions and the recommended option. Skip any question already answered or
-inferable.
+question in an AskUserQuestion call. Use earlier answers to build the
+options for later questions. Skip a question only if the user already
+answered it. Otherwise ask it: put your inferred answer first as the
+recommended option.
 
-Description, in plain text, one message each:
-1. What is it?
-2. Who uses it?
+1. **What are you building?** Plain text, open answer. The only question
+   without options.
+
+Every other question is one AskUserQuestion call with 2-4 concrete options
+built from the earlier answers. The first option is your pick and its label
+ends with "(Recommended)". Each option gets a one-line description of the
+trade-off. The user can always pick Other and write their own answer, so
+don't add an "Other" option yourself.
+
+2. Who uses it? (just me / a few people / public sign-ups ...)
 3. What does it store?
 4. What's the core flow?
-5. What's out of scope for v1?
-
-Then the choices, one AskUserQuestion call each, recommended option first:
+5. What's out of scope for v1? (multiSelect: offer likely cuts)
 6. Stack: language/framework, front end or none, database or none.
 7. Is there a runnable service? (decides whether "app boots" is part of the gate)
 8. Autonomy: **Review each phase** (recommended: stop after every phase) or
@@ -85,12 +91,13 @@ Then the choices, one AskUserQuestion call each, recommended option first:
 9. Context7 library docs (MCP)? **No** (recommended, it costs ~1-4k tokens
    every session) or **Yes** (worth it for fast-moving frameworks; a free API
    key from context7.com/dashboard raises the rate limits).
-10. Project name. Skip if it's obvious from the description or the folder name.
+10. Project name: offer 2-3 names, the folder name first.
 
-Write down what you inferred instead of asking. If AskUserQuestion isn't
-available (non-interactive run), or the user already answered in their
-message, use those answers or the recommended defaults, and list your
-assumptions under Open questions in `docs/plan.md`.
+If AskUserQuestion isn't available, ask the same questions in plain text,
+still one per message: numbered options, the recommended one first, and a
+last line "Or type your own." If there's no way to get answers at all
+(a one-shot run), use the recommended options and list them under Open
+questions in `docs/plan.md`.
 
 ## 3. Scaffold `app/`
 
