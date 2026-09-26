@@ -76,6 +76,20 @@ status/                STATE: PROGRESS.md, ISSUES.md, reports/phase-N.md
 
 **Requirements:** Claude Code, plus Git Bash on Windows (Claude Code already needs it, and the hooks run through it).
 
+## Architecture
+
+The last setup question picks the architecture, once it knows what you're building. It recommends one style and says why it fits:
+
+| Style | Fits |
+|---|---|
+| Modular monolith, layered (the usual pick) | Most apps: CRUD, dashboards, SaaS v1, one team |
+| Clean / hexagonal (ports and adapters) | Rich business rules, or external systems likely to change |
+| Event-driven | Async work: notifications, imports, webhooks, long jobs |
+| Plugin-based | Extensible tools that others add to |
+| Microservices | Several teams, or parts that must scale on their own. Almost never for v1 |
+
+The choice goes in `docs/architecture.md` and the first ADR, and one line in `CLAUDE.md` keeps it in view every session. Based on the [ByteByteGo architecture guides](https://bytebytego.com/guides/software-architecture/) and [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
+
 ## Design options
 
 Setup offers these when the project has a UI. It recommends one component library for your stack and only the frontend-design skill as a helper. Every MCP server costs tokens in every session, so pick one only when it clearly pays off.

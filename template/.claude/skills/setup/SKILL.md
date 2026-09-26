@@ -76,9 +76,9 @@ recommended option.
 1. **What are you building?** Plain text, open answer. The only question
    without options.
 
-Then show your recommended answer to questions 2-10 as a short list and ask
+Then show your recommended answer to questions 2-11 as a short list and ask
 one AskUserQuestion: **Use these (Recommended)** jumps to step 2b, or
-**Walk me through each one** asks 2-10 below. Other lets the user name just
+**Walk me through each one** asks 2-11 below. Other lets the user name just
 the ones to change.
 
 Every other question is one AskUserQuestion call with 2-4 concrete options
@@ -107,6 +107,33 @@ don't add an "Other" option yourself.
    every session) or **Yes** (worth it for fast-moving frameworks; a free API
    key from context7.com/dashboard raises the rate limits).
 10. Project name: offer 2-3 names, the folder name first.
+11. **Architecture**, always last, because it depends on everything above.
+   Recommend from the catalog below, and say in the option's description why
+   it fits this project (users, data, core flow, stack). In the summary list
+   it's the last line too.
+
+### Architecture catalog
+
+Pick the simplest style that fits. For almost every v1 that's a modular
+monolith. The UI pattern (MVC for Rails/Django/Laravel, components for
+React/Vue/Svelte, MVVM for SwiftUI/Android) follows the framework's
+convention, so don't ask about it.
+
+| Style | Shape | Fits | Costs |
+|---|---|---|---|
+| **Modular monolith, layered** (default) | One deployable. Code split by feature module; inside each, routes → service → data | Most apps: CRUD, dashboards, SaaS v1, one team | Layers blur without discipline; keep modules from reaching into each other |
+| Clean / hexagonal (ports and adapters) | Core logic in the middle, with no framework or DB imports; dependencies point only inward. Hexagonal: core + ports + adapters. Clean: rings of entities → use cases → interface adapters → frameworks | Rich business rules, or external systems likely to change (payments, several data sources). Name the variant that fits | More files and interfaces up front |
+| Event-driven | Parts emit events that others consume: a job queue or pub/sub, usually inside the monolith | Async work: notifications, imports, webhooks, long jobs | Harder to test and trace; needs a queue |
+| Plugin-based (microkernel) | A small core plus independent plugins | Extensible tools: editors, CLIs, apps that others extend | Changing the core breaks plugins |
+| Microservices | Separate deployables per business capability, each with its own data | Several teams, or parts that must scale or fail independently | Network, deployment and data consistency overhead. Almost never right for v1 |
+
+Low-latency systems (real-time games, trading) keep state in memory in one
+process. Don't split them into services.
+
+Sources: bytebytego.com/guides/6-software-architectural-patterns-you-must-know,
+bytebytego.com/guides/is-microservice-architecture-the-silver-bullet,
+bytebytego.com/guides/mvc-mvp-mvvm-viper-patterns; Clean Architecture:
+blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html.
 
 ### Design catalog
 
@@ -168,6 +195,7 @@ Stack:     <...>
 Gate:      <lint> · <types> · <test> [· <run>]
 Autonomy:  <...>          Context7: <yes/no>
 Design:    <component library> · <icon set> · <helpers, or none>
+Architecture: <style>: <one line on why it fits>
 Not in v1: <...>
 Phases:    1. <walking skeleton>  2. <...>  ...
 ```
@@ -201,8 +229,8 @@ that isn't true for this project.
 | `CLAUDE.md` (replaces the bootstrap) | `templates/CLAUDE.template.md` |
 | `docs/plan.md` | `templates/plan.md` |
 | `docs/phases.md` | `templates/phases.md`. Phase 1 is always the thinnest walking skeleton. Every phase is demonstrable, reviewable in one sitting, lists its files, and has acceptance criteria you can run. |
-| `docs/architecture.md` | no template. Components, data flow, trust boundaries, external services. ≤60 lines. |
-| `docs/decisions/0001-stack.md` | `templates/adr.md`, status accepted |
+| `docs/architecture.md` | no template. The chosen style and why, the module or layer map with what each may import, data flow, trust boundaries, external services. ≤60 lines. |
+| `docs/decisions/0001-stack.md` | `templates/adr.md`, status accepted. Covers the stack and the architecture style; the rejected styles go under alternatives. |
 | `status/PROGRESS.md` | `templates/PROGRESS.md` |
 | `status/ISSUES.md` | `templates/ISSUES.md`. Tables stay empty. |
 | `README.md` | what it is, how to run it, where the docs are. For people, short. |

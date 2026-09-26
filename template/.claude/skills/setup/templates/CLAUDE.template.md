@@ -2,6 +2,8 @@
 
 <One paragraph: what this is, who uses it, the core flow.>
 
+Architecture: <style>. Module map and import rules in `docs/architecture.md`.
+
 @status/PROGRESS.md
 
 ## Layout
