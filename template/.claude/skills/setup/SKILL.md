@@ -92,8 +92,10 @@ don't add an "Other" option yourself.
 4. What's the core flow?
 5. What's out of scope for v1? (multiSelect: offer likely cuts)
 6. Stack: language/framework, front end or none, database or none.
-6b. **Design**, only if there's a UI. Two questions, from the catalog below:
+6b. **Design**, only if there's a UI. Up to three questions, from the catalog below:
    - Component library (single choice): the fitting one for the stack.
+   - Icon set (single choice), only if the chosen library doesn't ship one
+     (see the Icons column). Otherwise state which set comes with it.
    - Design helpers (multiSelect): up to 4 that fit, the frontend-design
      skill first as recommended. Name any others from the catalog in the
      question text so the user can type one under Other.
@@ -121,6 +123,25 @@ Component libraries (the source goes in the repo or `package.json`):
 | React Native / Expo | **React Native Reusables** (shadcn for native) + NativeWind | Tamagui |
 | Server-rendered HTML | **plain Tailwind** or Pico CSS | none |
 
+Icons:
+| Library | Icons |
+|---|---|
+| shadcn/ui, shadcn-vue, shadcn-svelte, React Native Reusables | included: Lucide, installed by init |
+| Nuxt UI | included: any Iconify set, Lucide by default |
+| MUI | not included: offer **Material Icons** (`@mui/icons-material`, matches the look) |
+| Tamagui | not included: offer **Lucide** (`@tamagui/lucide-icons`) |
+| plain Tailwind, Pico CSS, none | not included: ask |
+
+Icon sets to offer when asking (use the stack's package, e.g. `lucide-react`,
+`lucide-vue-next`, `@lucide/svelte`; for server-rendered HTML copy the SVGs
+into the templates, no JS):
+| Set | Fits |
+|---|---|
+| **Lucide** (Recommended) | ~1,500 clean outline icons, the most common choice, matches shadcn |
+| Heroicons | ~300 icons from the Tailwind team, outline and solid |
+| Phosphor | ~1,500 icons in 6 weights, from thin to duotone, for a softer look |
+| Tabler | 5,000+ outline icons, the widest coverage |
+
 Design helpers:
 | Helper | What it gives | Cost | Install |
 |---|---|---|---|
@@ -146,7 +167,7 @@ Users:     <...>          Stores: <...>
 Stack:     <...>
 Gate:      <lint> · <types> · <test> [· <run>]
 Autonomy:  <...>          Context7: <yes/no>
-Design:    <component library> · <helpers, or none>
+Design:    <component library> · <icon set> · <helpers, or none>
 Not in v1: <...>
 Phases:    1. <walking skeleton>  2. <...>  ...
 ```
@@ -247,8 +268,9 @@ Merge into the existing file, and never drop entries from `deny`.
   to log in).
 - There's a UI: write `.claude/rules/ui.md` scoped to the UI files: use the
   chosen library's components before writing custom ones, add them with its
-  CLI, keep colors, spacing and fonts as shared tokens (theme or CSS
-  variables) instead of one-off values, and check keyboard access and contrast.
+  CLI, use only the chosen icon set, keep colors, spacing and fonts as shared
+  tokens (theme or CSS variables) instead of one-off values, and check
+  keyboard access and contrast. Icon-only buttons need an accessible label.
 
 ## 7. Verify
 

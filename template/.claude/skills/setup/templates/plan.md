@@ -43,7 +43,7 @@ Anything not listed under v1 scope is out of scope.
 
 ## Design
 
-<Only if there's a UI. Component library, design helpers, and the visual
+<Only if there's a UI. Component library, icon set, design helpers, and the visual
 direction in one or two lines (mood, palette, type). Delete otherwise.>
 
 ## Data model sketch
