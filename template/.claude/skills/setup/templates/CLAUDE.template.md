@@ -24,7 +24,8 @@
 ## How we work
 
 - One phase at a time from `docs/phases.md`. State the plan, build it, then
-  run the `close-phase` skill and stop for review.
+  run the `close-phase` skill (it runs the gate and the `reviewer` agent).
+- <AUTONOMY_LINE>
 - Touch only the files the phase lists. If the phase needs more, stop and say so.
 - New table, module boundary or API contract: write an ADR in
   `docs/decisions/` and get approval before writing code.

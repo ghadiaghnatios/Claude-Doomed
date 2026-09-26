@@ -11,8 +11,12 @@ this file in `templates/`. Rules while it runs:
 - Ask everything you need in **one** round, then run to the end without
   asking more. Stop only on a failure, and report the exact error.
 - Write nothing outside this folder. Never touch `~/.claude/`.
-- Add no MCP servers, plugins or skills. Add no dependency beyond what the
-  stack's official generator installs.
+- Add no MCP servers, plugins or skills unless the user opted in during the
+  interview. Add no dependency beyond what the stack's official generator installs.
+- **Never edit the managed files.** The updater overwrites them:
+  `.claude/skills/setup/**`, `.claude/skills/close-phase/**`,
+  `.claude/agents/reviewer.md`, `.claude/hooks/guard-secrets.sh`,
+  `.claude/rules/security.md`. Project-specific additions go in other files.
 - Never handle a secret. If one is needed, name the env var and have the
   user set it.
 
@@ -21,9 +25,13 @@ this file in `templates/`. Rules while it runs:
 ```
 CLAUDE.md            always loaded: layout, commands, working rules (≤50 lines)
 .claude/
-  settings.json      enforced: allow/deny lists, format hook
-  rules/             conventions; security.md always, the rest path-scoped
+  settings.json      enforced: allow/deny lists, secret guard + format hooks
+  hooks/             guard-secrets.sh
+  agents/            reviewer (read-only, used by close-phase)
+  rules/             conventions; security*.md always, the rest path-scoped
   skills/            setup (this), close-phase
+.github/workflows/ci.yml   the same gate on every push and PR
+.mcp.json          only if the user opted into Context7
 app/                 all runnable code, tests and app config
 docs/                what we're building (changes only with approval)
   plan.md  phases.md  architecture.md  decisions/NNNN-*.md
@@ -62,16 +70,28 @@ Then ask one AskUserQuestion call for the choices. Offer a recommended
 option first, based on the description:
 - Stack: language/framework, front end or none, database or none.
 - Is there a runnable service? (decides whether "app boots" is part of the gate)
+- Autonomy: **Review each phase** (recommended: stop after every phase) or
+  **Run all phases** (keep going, and stop only on a blocker, a failing gate
+  you can't fix, an ADR that needs approval, or the end).
+- Context7 library docs (MCP)? **No** (recommended, it costs ~1-4k tokens
+  every session) or **Yes** (worth it for fast-moving frameworks; a free API
+  key from context7.com/dashboard raises the rate limits).
 - Project name. Skip if it's obvious from the description or the folder name.
 
-Don't ask anything you can infer. Write down what you inferred instead.
+Don't ask anything you can infer. Write down what you inferred instead. If
+AskUserQuestion isn't available (non-interactive run), or the user already
+answered in their message, use those answers or the recommended defaults,
+and list your assumptions under Open questions in `docs/plan.md`.
 
 ## 3. Scaffold `app/`
 
 New project only. Use the stack's official generator (`npm create vite@latest`,
 `uv init`, `cargo new`, `go mod init`, etc.) with the lint, format, typecheck
 and test tooling the ecosystem treats as default. Hand-write no application
-code. Phase 1 builds the first real path. Several deployables go in
+code. Phase 1 builds the first real path. The only exception is one smoke
+test (for example, "the package imports") so that the test runner and the
+type checker have something to run. A gate that fails on an empty scaffold
+teaches everyone to ignore it. Several deployables go in
 `app/<name>/`, shared code in `app/packages/<name>/`.
 
 ## 4. Write the documents
@@ -90,13 +110,22 @@ that isn't true for this project.
 | `status/ISSUES.md` | `templates/ISSUES.md`. Tables stay empty. |
 | `README.md` | what it is, how to run it, where the docs are. For people, short. |
 | `.env.example` | every env var the app reads, no values. Only if there are any. |
+| `.github/workflows/ci.yml` | no template. On push and pull_request: check out, set up the runtime with dependency caching, install, then run lint, types and test with the exact `CLAUDE.md` commands (`working-directory: app`). Set `permissions: contents: read` and pin actions to a major version. Skip if the folder already has CI; add the gate to it instead. |
+
+In `CLAUDE.md`, write the Autonomy line from the interview answer:
+- Review: `Autonomy: after close-phase, stop and wait for "continue".`
+- Run all: `Autonomy: after close-phase, start the next phase. Stop only on a
+  blocker, an unfixable gate, an ADR that needs approval, or the last phase
+  (then run the final sweep).`
 
 The `@status/PROGRESS.md` import in `CLAUDE.md` must point at a file that
 exists. A missing import fails silently.
 
 ## 5. Conventions: `.claude/rules/`
 
-- Keep `security.md` (always loaded). Add stack-specific lines to it if needed.
+- `security.md` is managed, so don't edit it. Put stack-specific security
+  rules in `security-project.md` (no `paths`, so it's always loaded, ≤10
+  lines). Only write it if there's something specific to say.
 - `code.md` with `paths: ["app/**"]`: language conventions the linter
   doesn't enforce, like error handling, logging, what not to reach for. ≤20 lines.
 - One more file per real area (`api.md`, `ui.md`, `db.md`, `tests.md`...),
@@ -104,6 +133,12 @@ exists. A missing import fails silently.
   something specific to say. No generic advice.
 
 ## 6. Config: `.claude/settings.json`
+
+Claude Code asks the user to approve writes under `.claude/`. That's on
+purpose, so don't try to get around it. Write each `.claude/` file once, in
+full, one after another, so the user sees only a few prompts. If a write is
+denied or can't be approved (non-interactive run), put the exact intended
+content in the final report so the user can apply it.
 
 Merge into the existing file, and never drop entries from `deny`.
 - `permissions.allow`: the exact install/lint/types/test/run/format commands
@@ -115,12 +150,19 @@ Merge into the existing file, and never drop entries from `deny`.
   the path from `tool_input.file_path`. Parse it with the project's own
   runtime (`node -e` or `python -c`), not `jq`. Exit 0 for files the formatter
   doesn't handle. Hooks run through Git Bash on Windows.
+- Keep the `PreToolUse` guard-secrets hook entry as it is.
 - Add stack entries to `.gitignore` (dependency dirs, build output, caches).
+- Context7 opted in: write `.mcp.json` with
+  `{"mcpServers":{"context7":{"type":"http","url":"https://mcp.context7.com/mcp","headers":{"Authorization":"Bearer ${CONTEXT7_API_KEY}"}}}}`.
+  Tell the user to set `CONTEXT7_API_KEY` in their own shell (never ask
+  for the value), then restart Claude and approve the server. Add one line
+  to `CLAUDE.md`: check Context7 before writing against an unfamiliar
+  library API.
 
 ## 7. Verify
 
-Run every command written into `CLAUDE.md`, and trigger the hook once by
-editing a file. Anything that fails gets fixed, or goes in
+Run every command written into `CLAUDE.md`, and trigger the format hook
+once by editing a file. The gate must be green on the fresh scaffold. Anything that fails gets fixed, or goes in
 `status/ISSUES.md` under Needs checking. Never leave an unverified command
 unmarked.
 
@@ -136,4 +178,5 @@ Files:    <created / changed>
 
 Then say: "Review `docs/plan.md` and `docs/phases.md`. Tell me what to
 change, or say **continue** to start phase 1." Don't commit, and don't start
-phase 1 until the user says so.
+phase 1 until the user says so, even in Run-all mode. The plan always gets
+one human look.
