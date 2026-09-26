@@ -1,15 +1,24 @@
 # Claude-Doomed
 
-A universal Claude Code workspace setup for any kind of project. In a new (or existing) project folder:
+A universal Claude Code workspace setup for any kind of project.
+
+## Install
+
+Open a terminal in your new (or existing) project folder and run the command for your OS.
+
+**Windows** (PowerShell):
 
 ```powershell
 irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/main/install.ps1 | iex
 ```
+
+**macOS / Linux** (Terminal):
+
 ```sh
 curl -fsSL https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/main/install.sh | sh
 ```
 
-Then run `claude` and say **setup yourself**. It asks one round of questions, then builds everything below and stops so you can review the plan. Say **continue** to start phase 1. Existing files are never overwritten.
+Then, on any OS, run `claude` and say **setup yourself**. It asks one round of questions, then builds everything below and stops so you can review the plan. Say **continue** to start phase 1. Existing files are never overwritten.
 
 ## What you get
 
