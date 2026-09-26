@@ -25,6 +25,7 @@ Do these in order. The phase isn't done until all of them are.
 4. **`status/PROGRESS.md`.** Set the phase and date, update the open-issue
    count, move items between Now and Next, and append the decisions. Keep it
    under ~40 lines: trim old decisions, since they live in the reports.
+   If `docs/edits.md` lists this phase under Planned, move those lines to Done.
 5. **`status/ISSUES.md`.** Add everything found and not fixed. Each row
    says what it does to the user, not only where it is. Move fixed items to
    Resolved with evidence, and drop Resolved rows from before the last phase.

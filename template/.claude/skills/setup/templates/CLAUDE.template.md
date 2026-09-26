@@ -9,7 +9,8 @@
 - `app/`: all runnable code, its tests and config. Commands run from here.
 - `docs/`: what we're building. Changes only with the user's approval.
   `plan.md` (scope, stack, non-goals) · `phases.md` (phase plan, acceptance)
-  · `architecture.md` · `decisions/NNNN-*.md` (ADRs).
+  · `architecture.md` · `decisions/NNNN-*.md` (ADRs) · `edits.md` (changes
+  saved for later with `/edit`; `/edit run` turns them into phases).
 - `status/`: what happened. `PROGRESS.md` (imported above) · `ISSUES.md`
   (defect register) · `reports/phase-N.md`.
 - `.claude/rules/`: conventions. They load by themselves when matching files are read.

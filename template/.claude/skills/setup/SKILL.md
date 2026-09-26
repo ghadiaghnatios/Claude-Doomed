@@ -15,7 +15,7 @@ this file in `templates/`. Rules while it runs:
 - Add no MCP servers, plugins or skills unless the user opted in during the
   interview. Add no dependency beyond what the stack's official generator installs.
 - **Never edit the managed files.** The updater overwrites them:
-  `.claude/skills/setup/**`, `.claude/skills/close-phase/**`,
+  `.claude/skills/setup/**`, `.claude/skills/close-phase/**`, `.claude/skills/edit/**`,
   `.claude/agents/reviewer.md`, `.claude/hooks/guard-secrets.sh`,
   `.claude/rules/security.md`. Project-specific additions go in other files.
 - Never handle a secret. If one is needed, name the env var and have the
@@ -30,12 +30,13 @@ CLAUDE.md            always loaded: layout, commands, working rules (≤50 lines
   hooks/             guard-secrets.sh
   agents/            reviewer (read-only, used by close-phase)
   rules/             conventions; security*.md always, the rest path-scoped
-  skills/            setup (this), close-phase
+  skills/            setup (this), close-phase, edit
 .github/workflows/ci.yml   the same gate on every push and PR
 .mcp.json          only if the user opted into Context7
 app/                 all runnable code, tests and app config
 docs/                what we're building (changes only with approval)
   plan.md  phases.md  architecture.md  decisions/NNNN-*.md
+  edits.md           changes saved for later (/edit), created on first use
 status/              what happened (written every phase)
   PROGRESS.md  ISSUES.md  reports/phase-N.md
 .env.example  .gitignore  .gitattributes  README.md
