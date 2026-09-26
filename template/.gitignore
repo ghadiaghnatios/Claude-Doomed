@@ -1,0 +1,13 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Claude Code, local only
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
