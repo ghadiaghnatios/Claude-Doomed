@@ -8,8 +8,9 @@ description: Set up or reconfigure this workspace for Claude (interview, plan, f
 This turns the folder into a configured workspace. Templates live next to
 this file in `templates/`. Rules while it runs:
 
-- Interview first, **one question at a time**, then run to the end without
-  asking more. Stop only on a failure, and report the exact error.
+- Interview **one question at a time**, then get the plan approved. Write
+  nothing before that approval. After it, run to the end without asking
+  more. Stop only on a failure, and report the exact error.
 - Write nothing outside this folder. Never touch `~/.claude/`.
 - Add no MCP servers, plugins or skills unless the user opted in during the
   interview. Add no dependency beyond what the stack's official generator installs.
@@ -73,6 +74,11 @@ recommended option.
 1. **What are you building?** Plain text, open answer. The only question
    without options.
 
+Then show your recommended answer to questions 2-10 as a short list and ask
+one AskUserQuestion: **Use these (Recommended)** jumps to step 2b, or
+**Walk me through each one** asks 2-10 below. Other lets the user name just
+the ones to change.
+
 Every other question is one AskUserQuestion call with 2-4 concrete options
 built from the earlier answers. The first option is your pick and its label
 ends with "(Recommended)". Each option gets a one-line description of the
@@ -98,6 +104,24 @@ still one per message: numbered options, the recommended one first, and a
 last line "Or type your own." If there's no way to get answers at all
 (a one-shot run), use the recommended options and list them under Open
 questions in `docs/plan.md`.
+
+## 2b. Approve the plan
+
+Before writing anything, show the plan in chat, ≤25 lines:
+
+```
+Project:   <name>: <one line>
+Users:     <...>          Stores: <...>
+Stack:     <...>
+Gate:      <lint> · <types> · <test> [· <run>]
+Autonomy:  <...>          Context7: <yes/no>
+Not in v1: <...>
+Phases:    1. <walking skeleton>  2. <...>  ...
+```
+
+Then one AskUserQuestion: **Approve and build (Recommended)** or **Change
+something**. On a change, update the plan, show it again and ask again.
+Only an approval moves on to step 3. One-shot run: skip this step.
 
 ## 3. Scaffold `app/`
 
@@ -192,7 +216,6 @@ Plan:     <n> phases; phase 1 is <one line>
 Files:    <created / changed>
 ```
 
-Then say: "Review `docs/plan.md` and `docs/phases.md`. Tell me what to
-change, or say **continue** to start phase 1." Don't commit, and don't start
-phase 1 until the user says so, even in Run-all mode. The plan always gets
-one human look.
+Then say: "Setup is done. The full plan is in `docs/plan.md` and
+`docs/phases.md`. Say **continue** to start phase 1." Don't commit, and
+don't start phase 1 until the user says so, even in Run-all mode.

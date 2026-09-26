@@ -9,16 +9,16 @@ Open a terminal in your new (or existing) project folder and run the command for
 **Windows** (PowerShell):
 
 ```powershell
-irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.0/install.ps1 | iex
 ```
 
 **macOS / Linux** (Terminal):
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.0/install.sh | sh
 ```
 
-Then, on any OS, run `claude` and say **setup yourself**. It asks its questions one at a time, with a recommended option and room for your own answer (what you're building, the stack, how much autonomy to give it, whether to add Context7), then builds everything below and stops once so you can review the plan. Say **continue** to start phase 1. Existing files are never overwritten.
+Then, on any OS, run `claude` and say **setup yourself**. It asks what you're building, then offers its recommended answers for the rest (the stack, how much autonomy to give it, whether to add Context7). Accept them, or go through them one at a time, each with options and room for your own answer. It then shows the plan and writes nothing until you approve it. Once it's built and the checks pass, say **continue** to start phase 1. Existing files are never overwritten.
 
 During setup, Claude Code asks you to approve a few writes to `.claude/` (settings and rules). That's a built-in safety check and can't be skipped, so approve them.
 
@@ -29,13 +29,13 @@ This refreshes only the files the template owns (the `setup` and `close-phase` s
 **Windows** (PowerShell):
 
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/main/install.ps1))) -Update
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.0/install.ps1))) -Update
 ```
 
 **macOS / Linux** (Terminal):
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/main/install.sh | sh -s -- --update
+curl -fsSL https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.0/install.sh | sh -s -- --update
 ```
 
 ## What you get
@@ -72,3 +72,10 @@ status/                STATE: PROGRESS.md, ISSUES.md, reports/phase-N.md
 - *Review each phase* mode stops after every phase. *Run all phases* mode keeps going and stops only on a blocker.
 
 **Requirements:** Claude Code, plus Git Bash on Windows (Claude Code already needs it, and the hooks run through it).
+
+## Releasing (maintainers)
+
+Installs are pinned to a release tag, so pushing to `main` changes nothing for users until you tag.
+1. Run `sh test/setup-smoke.sh` (needs a logged-in `claude`).
+2. Replace the old version with the new one in `install.sh`, `install.ps1` and this README.
+3. Commit, then `git tag vX.Y.Z && git push origin main vX.Y.Z`.
