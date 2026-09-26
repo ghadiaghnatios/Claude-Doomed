@@ -120,7 +120,7 @@ Component libraries (the source goes in the repo or `package.json`):
 | React / Next.js | **shadcn/ui**: components are copied into the repo as code Claude can edit, built on Tailwind + Radix | MUI (complete Material look, good for admin/dashboards) · plain Tailwind |
 | Vue / Nuxt | **shadcn-vue** | Nuxt UI · plain Tailwind |
 | Svelte | **shadcn-svelte** | plain Tailwind |
-| React Native / Expo | **React Native Reusables** (shadcn for native) + NativeWind | Tamagui |
+| React Native / Expo | **React Native Reusables** (shadcn for native) + NativeWind (or Uniwind) | Tamagui |
 | Server-rendered HTML | **plain Tailwind** or Pico CSS | none |
 
 Icons:
@@ -128,19 +128,19 @@ Icons:
 |---|---|
 | shadcn/ui, shadcn-vue, shadcn-svelte, React Native Reusables | included: Lucide, installed by init |
 | Nuxt UI | included: any Iconify set, Lucide by default |
-| MUI | not included: offer **Material Icons** (`@mui/icons-material`, matches the look) |
-| Tamagui | not included: offer **Lucide** (`@tamagui/lucide-icons`) |
+| MUI | not included: offer **Material Icons** (`@mui/icons-material`, 2,100+ icons, matches the look) |
+| Tamagui | not included: offer **Lucide** (`@tamagui/lucide-icons-2` plus `react-native-svg`) |
 | plain Tailwind, Pico CSS, none | not included: ask |
 
 Icon sets to offer when asking (use the stack's package, e.g. `lucide-react`,
-`lucide-vue-next`, `@lucide/svelte`; for server-rendered HTML copy the SVGs
+`@lucide/vue`, `@lucide/svelte`, `lucide-react-native`; for server-rendered HTML copy the SVGs
 into the templates, no JS):
 | Set | Fits |
 |---|---|
-| **Lucide** (Recommended) | ~1,500 clean outline icons, the most common choice, matches shadcn |
-| Heroicons | ~300 icons from the Tailwind team, outline and solid |
-| Phosphor | ~1,500 icons in 6 weights, from thin to duotone, for a softer look |
-| Tabler | 5,000+ outline icons, the widest coverage |
+| **Lucide** (Recommended) | ~1,850 clean outline icons, the most common choice, matches shadcn |
+| Heroicons | ~320 icons from the Tailwind team, outline, solid, mini and micro |
+| Phosphor | 1,200+ icons in 6 weights, from thin to duotone, for a softer look |
+| Tabler | 6,000+ icons, outline and filled, the widest coverage |
 
 Design helpers:
 | Helper | What it gives | Cost | Install |

@@ -82,7 +82,7 @@ Setup offers these when the project has a UI. It recommends one component librar
 
 **Component libraries:** shadcn/ui (React/Next), shadcn-vue or Nuxt UI (Vue), shadcn-svelte (Svelte), React Native Reusables + NativeWind (React Native), MUI (Material look, dashboards), or plain Tailwind / Pico CSS (server-rendered HTML).
 
-**Icons:** the shadcn family and Nuxt UI already include Lucide. With any other library, setup asks for an icon set: Lucide (recommended), Heroicons, Phosphor or Tabler. MUI gets Material Icons.
+**Icons:** the shadcn family and Nuxt UI already include Lucide. With any other library, setup asks for an icon set: Lucide (recommended, ~1,850 icons), Heroicons (~320), Phosphor (1,200+, 6 weights) or Tabler (6,000+). MUI gets Material Icons (2,100+).
 
 | Helper | What it gives | Cost |
 |---|---|---|
