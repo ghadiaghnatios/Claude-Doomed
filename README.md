@@ -9,13 +9,13 @@ Open a terminal in your new (or existing) project folder and run the command for
 **Windows** (PowerShell):
 
 ```powershell
-irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.0/install.ps1 | iex
+irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.1/install.ps1 | iex
 ```
 
 **macOS / Linux** (Terminal):
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.0/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.1/install.sh | sh
 ```
 
 Then, on any OS, run `claude` and say **setup yourself**. It asks what you're building, then offers its recommended answers for the rest (the stack, how much autonomy to give it, whether to add Context7). Accept them, or go through them one at a time, each with options and room for your own answer. It then shows the plan and writes nothing until you approve it. Once it's built and the checks pass, say **continue** to start phase 1. Existing files are never overwritten.
@@ -29,13 +29,13 @@ This refreshes only the files the template owns (the `setup` and `close-phase` s
 **Windows** (PowerShell):
 
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.0/install.ps1))) -Update
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.1/install.ps1))) -Update
 ```
 
 **macOS / Linux** (Terminal):
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.0/install.sh | sh -s -- --update
+curl -fsSL https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.1/install.sh | sh -s -- --update
 ```
 
 ## What you get

@@ -1,11 +1,11 @@
 # Install (in your project folder):
-#   irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.0/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.1/install.ps1 | iex
 # Update the managed files in an already set-up project:
-#   & ([scriptblock]::Create((irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.0/install.ps1))) -Update
+#   & ([scriptblock]::Create((irm https://raw.githubusercontent.com/ghadiaghnatios/Claude-Doomed/v1.0.1/install.ps1))) -Update
 param([switch]$Update)
 $ErrorActionPreference = 'Stop'
 # Pinned release. Bump with each new tag, together with the README commands.
-$version = 'v1.0.0'
+$version = 'v1.0.1'
 # Owned by this template; -Update replaces them. Everything else is never overwritten.
 $managed = '.claude/skills/setup', '.claude/skills/close-phase', '.claude/agents/reviewer.md',
            '.claude/hooks/guard-secrets.sh', '.claude/rules/security.md'

@@ -26,6 +26,7 @@ echo "$r2" | grep -qi "recommend" || fail "turn 2 doesn't offer recommended answ
 r3=$(turn "Use these" --continue)
 echo "--- turn 3"; echo "$r3"
 echo "$r3" | grep -qi "approve" || fail "turn 3 doesn't ask to approve the plan"
+echo "$r3" | grep -qi "type your own" || fail "turn 3 has no 'Or type your own' line"
 
 after=$(find . -path ./.git -prune -o -type f -print | sort)
 [ "$before" = "$after" ] || fail "files were written before plan approval"

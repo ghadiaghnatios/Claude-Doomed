@@ -120,8 +120,9 @@ Phases:    1. <walking skeleton>  2. <...>  ...
 ```
 
 Then one AskUserQuestion: **Approve and build (Recommended)** or **Change
-something**. On a change, update the plan, show it again and ask again.
-Only an approval moves on to step 3. One-shot run: skip this step.
+something**. Without AskUserQuestion, use the plain-text format from step 2,
+ending with "Or type your own." On a change, update the plan, show it again
+and ask again. Only an approval moves on to step 3. One-shot run: skip this step.
 
 ## 3. Scaffold `app/`
 
