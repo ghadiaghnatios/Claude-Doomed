@@ -35,5 +35,8 @@
 - Anything found and not fixed goes in `status/ISSUES.md` right away.
 - Ask only about product decisions. Decide the rest and log it under
   Decisions in `status/PROGRESS.md`.
-- Ask before adding a dependency.
+- Ask before adding a dependency, skill, MCP server or plugin. Each one costs
+  tokens every session.
+- Unsure of a library's current API (new major version, fast-moving
+  framework)? Read its official docs or changelog before writing. Don't guess.
 - Before stopping for any reason, update `status/PROGRESS.md`.
