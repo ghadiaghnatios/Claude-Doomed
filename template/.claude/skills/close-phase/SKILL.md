@@ -32,7 +32,7 @@ Do these in order. The phase isn't done until all of them are.
 6. **Stop or continue.** Show a ≤5-line summary. Then follow the Autonomy
    line in `CLAUDE.md`: either wait for "continue", or start the next phase.
 
-Stopping mid-phase (context limit, blocker, user asks): do steps 4 and 5
+Stopping mid-phase (blocker, user asks): do steps 4 and 5
 only, and write under Now exactly where you stopped.
 
 ## Final sweep (after the last phase, before calling the project done)

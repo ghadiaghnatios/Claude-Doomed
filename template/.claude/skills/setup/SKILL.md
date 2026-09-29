@@ -81,11 +81,8 @@ one AskUserQuestion: **Use these (Recommended)** jumps to step 2b, or
 **Walk me through each one** asks 2-11 below. Other lets the user name just
 the ones to change.
 
-Every other question is one AskUserQuestion call with 2-4 concrete options
-built from the earlier answers. The first option is your pick and its label
-ends with "(Recommended)". Each option gets a one-line description of the
-trade-off. The user can always pick Other and write their own answer, so
-don't add an "Other" option yourself.
+Every other question is one AskUserQuestion call with options built from
+the earlier answers.
 
 2. Who uses it? (just me / a few people / public sign-ups ...)
 3. What does it store?
@@ -129,11 +126,6 @@ convention, so don't ask about it.
 
 Low-latency systems (real-time games, trading) keep state in memory in one
 process. Don't split them into services.
-
-Sources: bytebytego.com/guides/6-software-architectural-patterns-you-must-know,
-bytebytego.com/guides/is-microservice-architecture-the-silver-bullet,
-bytebytego.com/guides/mvc-mvp-mvvm-viper-patterns; Clean Architecture:
-blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html.
 
 ### Design catalog
 

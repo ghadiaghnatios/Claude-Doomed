@@ -5,5 +5,5 @@
 - Parameterized queries only. No string-built SQL, shell commands, or HTML.
 - Every endpoint/action checks authz, not just authn. Deny by default.
 - Encode output for its context (HTML, URL, shell). Set security headers and strict CORS on web servers.
-- Pin dependencies via the lockfile. Ask before adding a new dependency.
+- Pin dependencies via the lockfile.
 - Errors shown to users never include stack traces, SQL, or internal paths.
